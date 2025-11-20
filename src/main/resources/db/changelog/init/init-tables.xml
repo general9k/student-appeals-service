@@ -1,0 +1,184 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="add_table_role" author="general9k">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="roles"/>
+            </not>
+        </preConditions>
+
+        <createSequence sequenceName="roles_seq" startValue="1" incrementBy="1"/>
+        <createTable tableName="roles">
+            <column name="id" type="serial">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="roles_pkey"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp(0)" defaultValue="now()">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="add_table_users" author="general9k">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="users"/>
+            </not>
+        </preConditions>
+
+        <createSequence sequenceName="users_seq" startValue="1" incrementBy="1"/>
+        <createTable tableName="users">
+            <column name="id" type="serial">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="users_pkey"/>
+            </column>
+            <column name="username" type="varchar(20)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="password" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="first_name" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="middle_name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="varchar(100)"/>
+            <column name="role_id" type="integer">
+                <constraints nullable="false"
+                             referencedTableName="roles"
+                             referencedColumnNames="id"
+                             foreignKeyName="fk_users_roles"/>
+            </column>
+            <column name="created_at" type="timestamp(0)" defaultValue="now()">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="add_table_topics" author="general9k">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="topics"/>
+            </not>
+        </preConditions>
+
+        <createSequence sequenceName="topics_seq" startValue="1" incrementBy="1"/>
+        <createTable tableName="topics">
+            <column name="id" type="serial">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="topics_pkey"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="timestamp(0)"/>
+            <column name="created_at" type="timestamp(0)" defaultValue="now()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp(0)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="add_table_statuses" author="general9k">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="statuses"/>
+            </not>
+        </preConditions>
+
+        <createSequence sequenceName="statuses_seq" startValue="1" incrementBy="1"/>
+        <createTable tableName="statuses">
+            <column name="id" type="serial">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="statuses_pkey"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp(0)" defaultValue="now()">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="add_table_notes" author="general9k">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="notes"/>
+            </not>
+        </preConditions>
+
+        <createSequence sequenceName="notes_seq" startValue="1" incrementBy="1"/>
+        <createTable tableName="notes">
+            <column name="id" type="serial">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="notes_pkey"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp(0)" defaultValue="now()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="topic_id" type="integer">
+                <constraints nullable="false"
+                             referencedTableName="topics"
+                             referencedColumnNames="id"
+                             foreignKeyName="fk_notes_topics"/>
+            </column>
+            <column name="status_id" type="integer">
+                <constraints nullable="false"
+                             referencedTableName="statuses"
+                             referencedColumnNames="id"
+                             foreignKeyName="fk_notes_statuses"/>
+            </column>
+            <column name="author_id" type="integer">
+                <constraints nullable="false"
+                             referencedTableName="users"
+                             referencedColumnNames="id"
+                             foreignKeyName="fk_notes_users"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="add_table_comments" author="general9k">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="comments"/>
+            </not>
+        </preConditions>
+        <createSequence sequenceName="comments_seq" startValue="1" incrementBy="1"/>
+        <createTable tableName="comments">
+            <column name="id" type="serial">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="comments_pkey"/>
+            </column>
+            <column name="text" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="note_id" type="integer">
+                <constraints nullable="false"
+                             referencedTableName="notes"
+                             referencedColumnNames="id"
+                             foreignKeyName="fk_comments_notes"
+                />
+            </column>
+            <column name="author_id" type="integer">
+                <constraints nullable="false"
+                             referencedTableName="users"
+                             referencedColumnNames="id"
+                             foreignKeyName="fk_comments_users"
+                />
+            </column>
+            <column name="created_at" type="timestamp(0)" defaultValue="now()">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
