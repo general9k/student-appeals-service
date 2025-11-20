@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: student-appeals-service
+  datasource:
+    url: ${spring.datasource.url}
+    username: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+  liquibase:
+    change-log: db/changelog/master.xml
+  security:
+    jwt:
+      secret-key: ${spring.security.jwt.secret-key}
+      expiration-ms: 86400000
+server:
+  port: 5000
