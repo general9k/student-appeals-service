@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: student-appeals-db
+    environment:
+      POSTGRES_DB: student-appeals
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  app:
+    image: general9kk/student-appeals-service:latest
+    container_name: student-appeals-app
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/student-appeals
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_SECURITY_JWT_SECRET-KEY: aB3nK9xQ2mL8vR7pY4sT6wZ1cX0eU5jH8gN2fV7bD4rE9qW3tY6uI1oP5aS8dF2
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:
