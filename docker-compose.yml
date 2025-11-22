@@ -14,7 +14,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   app:
-    image: general9kk/student-appeals-service:latest
+    build: ./backend
     container_name: student-appeals-app
     ports:
       - "8080:8080"
