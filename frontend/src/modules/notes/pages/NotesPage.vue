@@ -12,6 +12,66 @@
     </v-btn>
   </div>
 
+  <v-row class="mb-4 mt-4">
+    <v-col cols="12" sm="6" md="2" class="d-flex align-center">
+      <v-text-field
+          v-model="filter.id"
+          label="ID"
+          variant="outlined"
+          density="compact"
+          hide-details
+          @update:model-value="handleFilter"
+      />
+    </v-col>
+    <v-col cols="12" sm="6" md="3" class="d-flex align-center">
+      <v-text-field
+          v-model="filter.name"
+          label="Название"
+          variant="outlined"
+          density="compact"
+          hide-details
+          @update:model-value="handleFilter"
+      />
+    </v-col>
+    <v-col cols="12" sm="6" md="3" class="d-flex align-center">
+      <v-select
+          v-model="filter.topicId"
+          :items="topics"
+          item-title="name"
+          item-value="id"
+          label="Тема"
+          variant="outlined"
+          density="compact"
+          clearable
+          hide-details
+          @update:model-value="handleFilter"
+      />
+    </v-col>
+    <v-col cols="12" sm="6" md="2" class="d-flex align-center">
+      <v-select
+          v-model="filter.statusId"
+          :items="statuses"
+          item-title="name"
+          item-value="id"
+          label="Статус"
+          variant="outlined"
+          density="compact"
+          clearable
+          hide-details
+          @update:model-value="handleFilter"
+      />
+    </v-col>
+    <v-col cols="12" sm="6" md="2" class="d-flex align-center">
+      <v-btn
+          color="grey"
+          variant="outlined"
+          @click="resetFilters"
+      >
+        Сбросить
+      </v-btn>
+    </v-col>
+  </v-row>
+
   <v-data-table-server
       v-model:sort-by="sortBy"
       :headers="headers()"
@@ -79,6 +139,7 @@ export default {
     }
   },
   computed: {
+    ...mapState(['topics', 'statuses']),
     ...mapState('notes', [
       'modalView',
       'modalType',
@@ -86,7 +147,8 @@ export default {
       'size',
       'totalCount',
       'sort',
-      'order'
+      'order',
+      'filter'
     ]),
     colors() {
       return ['blue', 'green', 'gray']
@@ -146,6 +208,19 @@ export default {
       this.CHANGE_DATA_BY_KEY({size: limit})
       this.getNotes();
     },
+
+    handleFilter() {
+      // Дебаунс для избежания частых запросов
+      clearTimeout(this.filterTimeout)
+      this.filterTimeout = setTimeout(() => {
+        this.CHANGE_DATA_BY_KEY({
+          page: 0, // Сбрасываем на первую страницу при фильтрации
+          ...this.filter
+        })
+        this.getNotes()
+      }, 500)
+    },
+
   }
 }
 </script>

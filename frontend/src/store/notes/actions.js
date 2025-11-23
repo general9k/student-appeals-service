@@ -7,6 +7,9 @@ export default {
       page: state.page,
       size: state.size,
       sort: `${sort},${state.order.toUpperCase()}`,
+        ...state.filter,
+        searchString: state.filter.name,
+        noteId: state.filter.id,
       }
     })
     commit('CHANGE_DATA_BY_KEY', {notes, ...paginationInfo})

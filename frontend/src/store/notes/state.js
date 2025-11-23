@@ -13,10 +13,10 @@ export default {
   modalView: false,
 
   filter: {
-    noteId: null,
+    id: null,
     statusId: null,
     topicId: null,
-    searchString: null,
+    name: null,
   },
 
   totalCount: 0,
