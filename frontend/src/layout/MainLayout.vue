@@ -7,7 +7,7 @@
         title="Beauty help"
         @click="$router.push('/')"
       >
-<!--        <template #append>-->
+        <template #append>
 <!--          <div class="d-flex flex-column mr-2">-->
 <!--            <span>-->
 <!--              {{ mainStore.form.name }}-->
@@ -39,7 +39,12 @@
 <!--              />-->
 <!--            </template>-->
 <!--          </v-img>-->
-<!--        </template>-->
+
+          <v-icon
+              icon="mdi-exit-to-app"
+              @click="logout"
+          />
+        </template>
       </v-app-bar>
 
       <v-navigation-drawer
@@ -90,20 +95,17 @@
   </v-responsive>
 </template>
 
-<script setup>
-// import { computed, onMounted } from 'vue';
-// import { useAuthStore } from '@/store/authStore';
-// import { useMainStore } from '@/store/mainStore';
-//
-// const authStore = useAuthStore();
-// const mainStore = useMainStore();
-//
-// const getAvatarSrc = computed(() => `${import.meta.env.VITE_API_URL}/${mainStore.avatarPath}`);
-//
-// onMounted(() => {
-//   mainStore.getUserInfo();
-// });
+<script>
+import { mapActions } from 'vuex'
+
+export default {
+  name: 'MainLayout',
+  methods: {
+    ...mapActions('auth', ['logout']),
+  }
+}
 </script>
+
 
 <style lang="sass" scoped>
 .avatar
