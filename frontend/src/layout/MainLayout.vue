@@ -8,14 +8,14 @@
         @click="$router.push('/')"
       >
         <template #append>
-<!--          <div class="d-flex flex-column mr-2">-->
+          <div class="d-flex flex-column mr-2">
 <!--            <span>-->
-<!--              {{ mainStore.form.name }}-->
+<!--              {{ user.username }}-->
 <!--            </span>-->
 <!--            <span>-->
 <!--              {{ mainStore.form.last_name }}-->
 <!--            </span>-->
-<!--          </div>-->
+          </div>
 <!--          <v-chip class="mr-2">-->
 <!--            {{ mainStore.form.role_name }}-->
 <!--          </v-chip>-->
@@ -96,10 +96,13 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import {mapActions, mapState} from 'vuex'
 
 export default {
   name: 'MainLayout',
+  computed: {
+    ...mapState('auth', ['user'])
+  },
   methods: {
     ...mapActions('auth', ['logout']),
   }
