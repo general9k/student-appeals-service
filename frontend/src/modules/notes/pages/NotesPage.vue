@@ -12,8 +12,8 @@
     </v-btn>
   </div>
 
-
   <v-data-table-server
+      v-model:sort-by="sortBy"
       :headers="headers()"
       :items="notes"
       :items-per-page-options="[
@@ -27,12 +27,15 @@
       :items-per-page="size"
       @update:page="changePageHandler"
       @update:items-per-page="changePageItemsHandler"
+      @update:sort-by="sortHandler"
   >
     <template #item.name="{item}">
       {{ item.name }}
+    </template>
+    <template #item.status="{item}">
       <v-chip
-        size="S"
-        :color="colors[item.status.id - 1]"
+          size="S"
+          :color="colors[item.status.id - 1]"
       >
         <div style="font-size: 11px; padding: 3px">
           {{ item.status.name }}
@@ -70,8 +73,21 @@ import {headers} from "@/modules/notes/entities/headers.js";
 export default {
   name: 'NotesPage',
   components: {NotesModal},
+  data() {
+    return {
+      sortBy: [],
+    }
+  },
   computed: {
-    ...mapState('notes', ['modalView', 'modalType', 'notes', 'size', 'totalCount']),
+    ...mapState('notes', [
+      'modalView',
+      'modalType',
+      'notes',
+      'size',
+      'totalCount',
+      'sort',
+      'order'
+    ]),
     colors() {
       return ['blue', 'green', 'gray']
     }
@@ -80,6 +96,8 @@ export default {
     this.getStatuses()
     this.getNotes()
     this.getTopics()
+    // Инициализируем сортировку из store
+    this.initializeSort()
   },
   methods: {
     headers() {
@@ -88,14 +106,42 @@ export default {
     ...mapActions(['getStatuses', 'getTopics']),
     ...mapActions('notes', ['getNotes']),
     ...mapMutations('notes', ['CHANGE_DATA_BY_KEY', 'SET_FORM']),
+
+    // Инициализация сортировки
+    initializeSort() {
+      if (this.sort && this.order) {
+        this.sortBy = [{key: this.sort, order: this.order}]
+      }
+    },
+
+    // Обработчик сортировки
+    sortHandler(sort) {
+      if (sort.length > 0) {
+        const sortItem = sort[0]
+        this.CHANGE_DATA_BY_KEY({
+          sort: sortItem.key,
+          order: sortItem.order
+        })
+      } else {
+        // Сброс сортировки
+        this.CHANGE_DATA_BY_KEY({
+          sort: null,
+          order: null
+        })
+      }
+      this.getNotes()
+    },
+
     editHandler(item) {
       this.CHANGE_DATA_BY_KEY({modalType: 'edit', modalView: true})
       this.SET_FORM({...item, topicId: item.topic.id, statusId: item.status.id})
     },
+
     changePageHandler(page) {
-      this.CHANGE_DATA_BY_KEY({page: page-1})
+      this.CHANGE_DATA_BY_KEY({page: page - 1})
       this.getNotes();
     },
+
     changePageItemsHandler(limit) {
       this.CHANGE_DATA_BY_KEY({size: limit})
       this.getNotes();

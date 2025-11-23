@@ -2,10 +2,11 @@ import {API} from "@/utils/Api.js";
 
 export default {
   async getNotes({state, commit}) {
+    const sort = ['topic', 'status'].includes(state.sort) ? `${state.sort}.name` : state.sort
     const {data: {notes, paginationInfo}} = await API.get('/api/v1/notes', { params: {
       page: state.page,
       size: state.size,
-      sort: state.sort,
+      sort: `${sort},${state.order.toUpperCase()}`,
       }
     })
     commit('CHANGE_DATA_BY_KEY', {notes, ...paginationInfo})
