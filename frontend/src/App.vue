@@ -1,26 +1,27 @@
 <template>
-  <component :is="templates[getLayout]">
-    <router-view />
-  </component>
+    <component :is="layout">
+      <router-view />
+    </component>
 </template>
 
-<script setup>
-import { computed, onMounted, shallowRef } from 'vue';
-import { useStore } from 'vuex';
+<script>
+import {mapGetters} from 'vuex';
 import MainLayout from './layout/MainLayout.vue';
+import AuthLayout from '@/layout/AuthLayout.vue';
 
-const store = useStore();
-
-const templates = shallowRef({
-  MainLayout,
-});
-
-const getLayout = computed(() => {
-  return 'MainLayout';
-});
-
-onMounted(() => {
-  // Вызов action auth из модуля auth
-  store.dispatch('auth/auth');
-});
+export default {
+  name: 'App',
+  components: {
+    MainLayout, AuthLayout,
+  },
+  computed: {
+    ...mapGetters('auth', ['isAuthenticated']),
+    layout() {
+      if (this.isAuthenticated) {
+        return 'MainLayout'
+      }
+      return 'AuthLayout'
+    }
+  },
+};
 </script>
