@@ -22,5 +22,6 @@ export default {
   totalCount: 0,
   page: 0,
   size: 10,
-  sort: 'topic.createdAt,DESC'
+  sort: 'createdAt',
+  order: 'DESC',
 }
