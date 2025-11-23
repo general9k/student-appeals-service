@@ -14,7 +14,7 @@ import router from './router';
 import App from './App.vue';
 import store from "@/store/index.js";
 
-// import mixins from '@/utils/mixins.js';
+import mixins from '@/utils/mixins.js';
 
 const app = createApp(App);
 
@@ -28,9 +28,9 @@ app.directive('mask', VueMask);
 
 
 app.use(store);
-// app.mixin({
-//   methods: { ...mixins() },
-// });
+app.mixin({
+  methods: { ...mixins() },
+});
 
 const vuetify = createVuetify({
   components: {

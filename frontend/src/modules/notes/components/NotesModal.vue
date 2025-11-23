@@ -20,7 +20,7 @@
         :model-value="form.name"
         @input="form.name = $event.target.value"
       />
-      <v-text-field
+      <v-textarea
         class="mt-4"
         label="Описание"
         :disabled="modalType === 'edit'"
