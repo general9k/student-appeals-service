@@ -22,8 +22,11 @@
         {value: 50, title: '50'},
         {value: 100, title: '100'},
       ]"
-      :items-length="notes.length"
+      :items-length="totalCount"
       item-value="id"
+      :items-per-page="size"
+      @update:page="changePageHandler"
+      @update:items-per-page="changePageItemsHandler"
   >
     <template #item.name="{item}">
       {{ item.name }}
@@ -39,6 +42,12 @@
     <template #item.topic="{item}">
       {{ item.topic.name }}
     </template>
+    <template #item.author="{item}">
+      {{ `${item.author.firstName} ${item.author.lastName}` }}
+    </template>
+    <template #item.createdAt="{item}">
+      {{ getDate(item.createdAt, 'DD.MM.YYYY HH:mm') }}
+    </template>
     <template #item.actions="{ item }">
       <v-icon
           class="me-2"
@@ -47,12 +56,6 @@
       >
         mdi-pencil
       </v-icon>
-<!--      <v-icon-->
-<!--          size="small"-->
-<!--          @click="storageStore.deleteModalView = true; storageStore.form.id = item.id"-->
-<!--      >-->
-<!--        mdi-delete-->
-<!--      </v-icon>-->
     </template>
   </v-data-table-server>
 
@@ -68,7 +71,7 @@ export default {
   name: 'NotesPage',
   components: {NotesModal},
   computed: {
-    ...mapState('notes', ['modalView', 'modalType', 'notes']),
+    ...mapState('notes', ['modalView', 'modalType', 'notes', 'size', 'totalCount']),
     colors() {
       return ['blue', 'green', 'gray']
     }
@@ -88,7 +91,15 @@ export default {
     editHandler(item) {
       this.CHANGE_DATA_BY_KEY({modalType: 'edit', modalView: true})
       this.SET_FORM({...item, topicId: item.topic.id, statusId: item.status.id})
-    }
+    },
+    changePageHandler(page) {
+      this.CHANGE_DATA_BY_KEY({page: page-1})
+      this.getNotes();
+    },
+    changePageItemsHandler(limit) {
+      this.CHANGE_DATA_BY_KEY({size: limit})
+      this.getNotes();
+    },
   }
 }
 </script>

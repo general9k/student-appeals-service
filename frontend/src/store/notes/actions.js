@@ -1,10 +1,14 @@
 import {API} from "@/utils/Api.js";
 
 export default {
-  async getNotes({commit}) {
-    const {data: {notes}} = await API.get('/api/v1/notes')
-    console.log(notes)
-    commit('CHANGE_DATA_BY_KEY', {notes})
+  async getNotes({state, commit}) {
+    const {data: {notes, paginationInfo}} = await API.get('/api/v1/notes', { params: {
+      page: state.page,
+      size: state.size,
+      sort: state.sort,
+      }
+    })
+    commit('CHANGE_DATA_BY_KEY', {notes, ...paginationInfo})
   },
 
   async createNote({state, dispatch, commit, rootState}) {
