@@ -26,5 +26,15 @@ services:
     depends_on:
       - postgres
 
+  ui:
+    build: ./frontend
+    container_name: student-appeals-ui
+    ports:
+      - "127.0.0.1:5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:5173
+    volumes:
+      - ./frontend:/app
+
 volumes:
   postgres_data:
