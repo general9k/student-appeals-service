@@ -24,5 +24,6 @@ export default {
     state.token = null
     state.user = null
     localStorage.removeItem('token')
+    localStorage.removeItem('user')
   }
 }
