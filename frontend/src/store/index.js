@@ -6,6 +6,7 @@ import mutations from './mutations';
 
 import auth from './auth';
 import notes from "@/store/notes/index.js";
+import topics from "@/store/topics/index.js";
 
 export default createStore({
   state,
@@ -13,6 +14,7 @@ export default createStore({
   mutations,
   modules: {
     auth,
-    notes
+    notes,
+    topics
   },
 });

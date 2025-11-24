@@ -5,5 +5,5 @@ export const headers = [
   { title: 'Статус', key: 'status', align: 'start',  sortable: true },
   { title: 'Автор', key: 'author', align: 'start',  sortable: false },
   { title: 'Дата обращения', key: 'createdAt', align: 'start',  sortable: true },
-  { title: '', key: 'actions',  sortable: false },
+  { title: '', key: 'actions',  sortable: false, width: '100px' },
 ];

@@ -1,5 +1,5 @@
 export default {
   statuses: [],
-  topics: [],
+  topicsList: [],
   users: [],
 }

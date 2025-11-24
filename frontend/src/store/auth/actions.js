@@ -30,6 +30,11 @@ export default {
     }
   },
 
+  async getUser() {
+    const {data: user} = await API.get('/api/v1/current_user')
+    console.log(user)
+  },
+
   logout({ commit }) {
     commit('LOGOUT');
   },
