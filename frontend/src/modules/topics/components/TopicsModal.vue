@@ -23,18 +23,18 @@
     <template #append>
       <v-btn
         class="mr-2"
-        color="blue-darken-4"
-        variant="outlined"
-        @click="CHANGE_DATA_BY_KEY({modalView: false}); clearForm()"
-      >
-        Отменить
-      </v-btn>
-      <v-btn
-        color="blue-darken-4"
+        color="#0082c5"
         variant="flat"
         @click="saveHandler"
       >
         Сохранить
+      </v-btn>
+      <v-btn
+        color="#0082c5"
+        variant="outlined"
+        @click="CHANGE_DATA_BY_KEY({modalView: false}); clearForm()"
+      >
+        Отменить
       </v-btn>
     </template>
   </v-navigation-drawer>

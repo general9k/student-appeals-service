@@ -9,6 +9,7 @@ export default {
   },
   SET_USER(state, user) {
     state.user = user
+    localStorage.setItem('user', JSON.stringify(user))
   },
   SET_LOADING(state, loading) {
     state.loading = loading

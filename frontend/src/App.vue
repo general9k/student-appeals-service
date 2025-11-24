@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex';
+import {mapActions, mapGetters, mapState} from 'vuex';
 import MainLayout from './layout/MainLayout.vue';
 import AuthLayout from '@/layout/AuthLayout.vue';
 
@@ -23,5 +23,11 @@ export default {
       return 'AuthLayout'
     }
   },
+  mounted() {
+    this.getUser()
+  },
+  methods: {
+    ...mapActions('auth', ['getUser'])
+  }
 };
 </script>

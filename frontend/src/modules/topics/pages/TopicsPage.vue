@@ -4,7 +4,7 @@
       Темы обращений
     </h1>
     <v-btn
-        color="blue-darken-4"
+        color="#0082c5"
         variant="flat"
         @click="CHANGE_DATA_BY_KEY({modalView: true, modalType: 'create'})"
     >
@@ -27,6 +27,7 @@
       <v-icon
           class="me-2"
           size="small"
+          color="#0082c5"
           @click="editHandler(item)"
       >
         mdi-pencil
@@ -34,6 +35,7 @@
       <v-icon
           class="me-2"
           size="small"
+          color="#0082c5"
           @click="deleteHandler(item)"
       >
         mdi-delete

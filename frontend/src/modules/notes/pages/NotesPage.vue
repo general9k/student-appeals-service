@@ -4,7 +4,7 @@
       Обращения
     </h1>
     <v-btn
-        color="blue-darken-4"
+        color="#0082c5"
         variant="flat"
         @click="CHANGE_DATA_BY_KEY({modalView: true, modalType: 'create'})"
     >
@@ -13,7 +13,7 @@
   </div>
 
   <div class="d-flex my-5">
-    <v-row class="mb-4 mt-4 px-5 py-3 bg-blue-grey-lighten-5 rounded-xl">
+    <v-row class="mb-4 mt-4 px-5 py-3 bg-blue-lighten-5 rounded-xl">
       <v-col cols="12" sm="6" md="2" class="d-flex align-center">
         <v-text-field
             v-model="filter.id"
@@ -118,6 +118,7 @@
       <v-icon
           class="me-2"
           size="small"
+          color="#0082c5"
           @click="editHandler(item)"
       >
         mdi-pencil
@@ -158,7 +159,6 @@ export default {
     }
   },
   mounted() {
-    this.getUser()
     this.getStatuses()
     this.getNotes()
     this.getTopics()
@@ -170,7 +170,6 @@ export default {
       return headers
     },
     ...mapActions(['getStatuses', 'getTopics']),
-    ...mapActions('auth', ['getUser']),
     ...mapActions('notes', ['getNotes']),
     ...mapMutations('notes', ['CHANGE_DATA_BY_KEY', 'SET_FORM']),
 

@@ -16,7 +16,6 @@ export default {
 
       if (data.token) {
         commit('SET_TOKEN', data.token)
-        commit('SET_USER', credentials)
         await router.push('/notes')
         return { success: true }
       } else {
@@ -30,9 +29,15 @@ export default {
     }
   },
 
-  async getUser() {
-    const {data: user} = await API.get('/api/v1/current_user')
-    console.log(user)
+  async getUser({commit}) {
+    let user = null;
+    if (!localStorage.getItem('user')) {
+      const {data} = await API.get('/api/v1/current_user')
+      user = data;
+    } else {
+      user = JSON.parse(localStorage.getItem('user'))
+    }
+    commit('SET_USER', user)
   },
 
   logout({ commit }) {
