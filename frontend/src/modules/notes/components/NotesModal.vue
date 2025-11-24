@@ -16,14 +16,14 @@
         class="mt-4"
         label="Название обращения"
         density="comfortable"
-        :disabled="modalType === 'edit'"
+        :disabled="modalType !== 'create'"
         :model-value="form.name"
         @input="form.name = $event.target.value"
       />
       <v-textarea
         class="mt-4"
         label="Описание"
-        :disabled="modalType === 'edit'"
+        :disabled="modalType !== 'create'"
         density="comfortable"
         :model-value="form.description"
         @input="form.description = $event.target.value"
@@ -34,17 +34,17 @@
         density="comfortable"
         :items="topicsList"
         item-title="name"
-        :disabled="modalType === 'edit'"
+        :disabled="modalType !== 'create'"
         item-value="id"
         :model-value="form.topicId"
         @update:modelValue="form.topicId = $event"
       />
-      <!-- todo and isAdmin-->
       <v-select
-        v-if="modalType === 'edit'"
+        v-if="modalType !== 'create'"
         class="mt-4"
         label="Статус"
         density="comfortable"
+        :disabled="modalType === 'view'"
         :items="statuses"
         item-title="name"
         item-value="id"

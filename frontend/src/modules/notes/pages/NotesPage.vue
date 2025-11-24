@@ -116,12 +116,22 @@
     </template>
     <template #item.actions="{ item }">
       <v-icon
+          v-if="user?.role === 'ADMIN'"
           class="me-2"
           size="small"
           color="#0082c5"
           @click="editHandler(item)"
       >
         mdi-pencil
+      </v-icon>
+      <v-icon
+          v-if="user?.role !== 'ADMIN'"
+          class="me-2"
+          size="small"
+          color="#0082c5"
+          @click="showHandler(item)"
+      >
+        mdi-eye-outline
       </v-icon>
     </template>
   </v-data-table-server>
@@ -144,6 +154,7 @@ export default {
   },
   computed: {
     ...mapState(['topicsList', 'statuses']),
+    ...mapState('auth', ['user']),
     ...mapState('notes', [
       'modalView',
       'modalType',
@@ -200,6 +211,10 @@ export default {
 
     editHandler(item) {
       this.CHANGE_DATA_BY_KEY({modalType: 'edit', modalView: true})
+      this.SET_FORM({...item, topicId: item.topic.id, statusId: item.status.id})
+    },
+    showHandler(item) {
+      this.CHANGE_DATA_BY_KEY({modalType: 'view', modalView: true})
       this.SET_FORM({...item, topicId: item.topic.id, statusId: item.status.id})
     },
 
