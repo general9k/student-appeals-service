@@ -4,7 +4,7 @@
   >
     <v-app>
       <v-app-bar
-        title="Beauty help"
+        title="YSTU"
         @click="$router.push('/')"
       >
         <template #append>
