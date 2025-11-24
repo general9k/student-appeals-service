@@ -31,7 +31,7 @@
         </div>
 
         <div v-if="error" class="error-message server-error">
-          {{ error }}
+          {{ 'Ошибка авторизации' }}
         </div>
 
         <button
