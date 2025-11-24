@@ -12,70 +12,72 @@
     </v-btn>
   </div>
 
-  <v-row class="mb-4 mt-4">
-    <v-col cols="12" sm="6" md="2" class="d-flex align-center">
-      <v-text-field
-          v-model="filter.id"
-          label="ID"
-          variant="outlined"
-          density="compact"
-          hide-details
-          @update:model-value="handleFilter"
-      />
-    </v-col>
-    <v-col cols="12" sm="6" md="3" class="d-flex align-center">
-      <v-text-field
-          v-model="filter.name"
-          label="Название"
-          variant="outlined"
-          density="compact"
-          hide-details
-          @update:model-value="handleFilter"
-      />
-    </v-col>
-    <v-col cols="12" sm="6" md="3" class="d-flex align-center">
-      <v-select
-          v-model="filter.topicId"
-          :items="topics"
-          item-title="name"
-          item-value="id"
-          label="Тема"
-          variant="outlined"
-          density="compact"
-          clearable
-          hide-details
-          @update:model-value="handleFilter"
-      />
-    </v-col>
-    <v-col cols="12" sm="6" md="2" class="d-flex align-center">
-      <v-select
-          v-model="filter.statusId"
-          :items="statuses"
-          item-title="name"
-          item-value="id"
-          label="Статус"
-          variant="outlined"
-          density="compact"
-          clearable
-          hide-details
-          @update:model-value="handleFilter"
-      />
-    </v-col>
-    <v-col cols="12" sm="6" md="2" class="d-flex align-center">
-      <v-btn
-          color="grey"
-          variant="outlined"
-          @click="resetFilters"
-      >
-        Сбросить
-      </v-btn>
-    </v-col>
-  </v-row>
+  <div class="d-flex my-5">
+    <v-row class="mb-4 mt-4 px-5 py-3 bg-blue-grey-lighten-5 rounded-xl">
+      <v-col cols="12" sm="6" md="2" class="d-flex align-center">
+        <v-text-field
+            v-model="filter.id"
+            label="ID"
+            variant="outlined"
+            density="compact"
+            hide-details
+            @update:model-value="handleFilter"
+        />
+      </v-col>
+      <v-col cols="12" sm="6" md="3" class="d-flex align-center">
+        <v-text-field
+            v-model="filter.name"
+            label="Название"
+            variant="outlined"
+            density="compact"
+            hide-details
+            @update:model-value="handleFilter"
+        />
+      </v-col>
+      <v-col cols="12" sm="6" md="3" class="d-flex align-center">
+        <v-select
+            v-model="filter.topicId"
+            :items="topicsList"
+            item-title="name"
+            item-value="id"
+            label="Тема"
+            variant="outlined"
+            density="compact"
+            clearable
+            hide-details
+            @update:model-value="handleFilter"
+        />
+      </v-col>
+      <v-col cols="12" sm="6" md="2" class="d-flex align-center">
+        <v-select
+            v-model="filter.statusId"
+            :items="statuses"
+            item-title="name"
+            item-value="id"
+            label="Статус"
+            variant="outlined"
+            density="compact"
+            clearable
+            hide-details
+            @update:model-value="handleFilter"
+        />
+      </v-col>
+      <v-col cols="12" sm="6" md="2" class="d-flex align-center justify-end">
+        <v-btn
+            color="grey"
+            variant="outlined"
+            @click="resetFilters"
+        >
+          Сбросить
+        </v-btn>
+      </v-col>
+    </v-row>
+  </div>
 
   <v-data-table-server
       v-model:sort-by="sortBy"
       :headers="headers()"
-      :items="notes"
+      :items="notes || []"
       :items-per-page-options="[
         {value: 10, title: '10'},
         {value: 25, title: '25'},
@@ -84,6 +86,7 @@
       ]"
       :items-length="totalCount"
       item-value="id"
+      :header-props="{ class: 'font-weight-bold' }"
       :items-per-page="size"
       @update:page="changePageHandler"
       @update:items-per-page="changePageItemsHandler"
@@ -97,7 +100,7 @@
           size="S"
           :color="colors[item.status.id - 1]"
       >
-        <div style="font-size: 11px; padding: 3px">
+        <div class="chip-style">
           {{ item.status.name }}
         </div>
       </v-chip>
@@ -139,7 +142,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['topics', 'statuses']),
+    ...mapState(['topicsList', 'statuses']),
     ...mapState('notes', [
       'modalView',
       'modalType',
@@ -155,6 +158,7 @@ export default {
     }
   },
   mounted() {
+    this.getUser()
     this.getStatuses()
     this.getNotes()
     this.getTopics()
@@ -166,6 +170,7 @@ export default {
       return headers
     },
     ...mapActions(['getStatuses', 'getTopics']),
+    ...mapActions('auth', ['getUser']),
     ...mapActions('notes', ['getNotes']),
     ...mapMutations('notes', ['CHANGE_DATA_BY_KEY', 'SET_FORM']),
 
@@ -225,6 +230,9 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="sass">
+.chip-style
+  font-size: 11px
+  padding: 3px 11px
+  font-weight: bold
 </style>

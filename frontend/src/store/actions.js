@@ -8,6 +8,6 @@ export default {
 
   async getTopics({commit}) {
     const {data: {topics}} = await API.get('/api/v1/topics')
-    commit('CHANGE_DATA_BY_KEY', {topics})
+    commit('CHANGE_DATA_BY_KEY', {topicsList: topics})
   }
 }

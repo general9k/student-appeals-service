@@ -32,7 +32,7 @@
         class="mt-4"
         label="Тема обращения"
         density="comfortable"
-        :items="topics"
+        :items="topicsList"
         item-title="name"
         :disabled="modalType === 'edit'"
         item-value="id"
@@ -78,10 +78,10 @@ import {mapActions, mapMutations, mapState} from "vuex";
 export default {
   name: 'NotesModal',
   computed: {
-    ...mapState(['topics', 'statuses']),
+    ...mapState(['topicsList', 'statuses']),
     ...mapState('notes', ['form', 'modalType', 'modalView']),
     getTitle() {
-      return this.modalType === 'create' ? 'Новое обращение' : 'Редактирование обращение'
+      return this.modalType === 'create' ? 'Новое обращение' : 'Редактирование обращения'
     }
   },
   methods: {

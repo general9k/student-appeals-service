@@ -4,52 +4,21 @@
   >
     <v-app>
       <v-app-bar
+        class="bg-blue-lighten-3"
         title="YSTU"
         @click="$router.push('/')"
       >
         <template #append>
-          <div class="d-flex flex-column mr-2">
-<!--            <span>-->
-<!--              {{ user.username }}-->
-<!--            </span>-->
-<!--            <span>-->
-<!--              {{ mainStore.form.last_name }}-->
-<!--            </span>-->
+          <div class="d-flex flex-column mr-5">
+            <v-icon
+                icon="mdi-exit-to-app"
+                @click="logout"
+            />
           </div>
-<!--          <v-chip class="mr-2">-->
-<!--            {{ mainStore.form.role_name }}-->
-<!--          </v-chip>-->
-
-<!--          <v-img-->
-<!--            class="avatar"-->
-<!--            :src="getAvatarSrc"-->
-<!--            cover-->
-<!--          >-->
-<!--            <template #placeholder>-->
-<!--              <div class="d-flex align-center justify-center fill-height">-->
-<!--                <v-progress-circular-->
-<!--                  color="grey-lighten-4"-->
-<!--                  indeterminate-->
-<!--                />-->
-<!--              </div>-->
-<!--            </template>-->
-<!--            <template #error>-->
-<!--              <v-img-->
-<!--                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7W6mLzWzyvqjcwfWJLW1uGM6G-dAsfgtFzw&s"-->
-<!--              />-->
-<!--            </template>-->
-<!--          </v-img>-->
-
-          <v-icon
-              icon="mdi-exit-to-app"
-              @click="logout"
-          />
         </template>
       </v-app-bar>
 
       <v-navigation-drawer
-        class="bg-deep-purple"
-        theme="dark"
         permanent
       >
         <v-list
@@ -69,24 +38,9 @@
             @click="$router.push('/topics')"
           />
         </v-list>
-
-<!--        <template #append>-->
-<!--          <div class="pa-2 d-flex flex-column align-center">-->
-<!--            <a-->
-<!--              href="/docs"-->
-<!--            >Руководство пользователя</a>-->
-<!--            <v-btn-->
-<!--              block-->
-<!--              class="mt-6"-->
-<!--              @click="authStore.logout()"-->
-<!--            >-->
-<!--              Logout-->
-<!--            </v-btn>-->
-<!--          </div>-->
-<!--        </template>-->
       </v-navigation-drawer>
 
-      <v-main>
+      <v-main class="mt-8">
         <v-container>
           <slot />
         </v-container>
