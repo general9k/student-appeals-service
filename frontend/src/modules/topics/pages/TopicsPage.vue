@@ -43,6 +43,36 @@
     </template>
   </v-data-table-server>
 
+
+  <v-dialog
+      :model-value="deleteView"
+      max-width="500px"
+  >
+    <v-card>
+      <v-card-text>
+        {{ `Удалить тему «${form.name}»?` }}
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer />
+        <v-btn
+            color="#0082c5"
+            variant="flat"
+            @click="deleteTopic(); CHANGE_DATA_BY_KEY( {deleteView: false})"
+        >
+          Удалить
+        </v-btn>
+        <v-btn
+            color="#0082c5"
+            variant="outlined"
+            @click="CHANGE_DATA_BY_KEY( {deleteView: false})"
+        >
+          Отмена
+        </v-btn>
+        <v-spacer />
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+
   <TopicsModal/>
 </template>
 
@@ -64,6 +94,8 @@ export default {
       'modalView',
       'modalType',
       'topics',
+      'form',
+      'deleteView',
     ]),
   },
   mounted() {
@@ -73,11 +105,15 @@ export default {
     headers() {
       return headers
     },
-    ...mapActions('topics', ['getTopics']),
+    ...mapActions('topics', ['getTopics', 'deleteTopic']),
     ...mapMutations('topics', ['CHANGE_DATA_BY_KEY', 'SET_FORM']),
 
     editHandler(item) {
       this.CHANGE_DATA_BY_KEY({modalType: 'edit', modalView: true})
+      this.SET_FORM(item)
+    },
+    deleteHandler(item) {
+      this.CHANGE_DATA_BY_KEY({deleteView: true})
       this.SET_FORM(item)
     },
   }

@@ -8,4 +8,5 @@ export default {
 
   modalType: 'create',
   modalView: false,
+  deleteView: false,
 }
