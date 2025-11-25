@@ -3,7 +3,7 @@ import router from "@/router/index.js";
 
 export default {
 
-  async login({ commit }, credentials) {
+  async login({ commit, dispatch }, credentials) {
     commit('SET_LOADING', true)
     commit('CLEAR_ERROR')
 
@@ -16,11 +16,13 @@ export default {
 
       if (data.token) {
         commit('SET_TOKEN', data.token)
+        dispatch('getUser');
         await router.push('/notes')
         return { success: true }
       } else {
         throw new Error('Токен не получен')
       }
+
     } catch (error) {
       commit('SET_ERROR', error.message)
       return { success: false, error: error.message }
