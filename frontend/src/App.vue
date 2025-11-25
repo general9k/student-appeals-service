@@ -24,6 +24,7 @@ export default {
     }
   },
   mounted() {
+    this.getUser()
   },
   methods: {
     ...mapActions('auth', ['getUser'])

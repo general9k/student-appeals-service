@@ -39,6 +39,7 @@ export default {
     } else {
       user = JSON.parse(localStorage.getItem('user'))
     }
+    console.log(user)
     commit('SET_USER', user)
   },
 
