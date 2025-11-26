@@ -181,7 +181,7 @@ export default {
       return headers
     },
     ...mapActions(['getStatuses', 'getTopics']),
-    ...mapActions('notes', ['getNotes']),
+    ...mapActions('notes', ['getNotes', 'getComments']),
     ...mapMutations('notes', ['CHANGE_DATA_BY_KEY', 'SET_FORM']),
 
     // Инициализация сортировки
@@ -212,6 +212,7 @@ export default {
     editHandler(item) {
       this.CHANGE_DATA_BY_KEY({modalType: 'edit', modalView: true})
       this.SET_FORM({...item, topicId: item.topic.id, statusId: item.status.id})
+      this.getComments(item.id)
     },
     showHandler(item) {
       this.CHANGE_DATA_BY_KEY({modalType: 'view', modalView: true})

@@ -51,37 +51,37 @@
         :model-value="form.statusId"
         @update:modelValue="form.statusId = $event"
       />
-    </template>
 
-    <h4>Комментарии</h4>
-    <div v-for="comment in comments" :key="comment.id">
-      <div>
-        {{ `${comment.author} - ${getDate(comment.createdAt, 'DD.MM.YYYY HH:mm')}` }}
+      <div v-if="modalType !== 'create'">
+        <h3>Комментарии</h3>
+        <div v-for="comment in comments" :key="comment.id">
+          <div class="mt-4">
+            <b>
+              {{ `${comment.author?.firstName} ${comment.author?.lastName} - ${getDate(comment.createdAt, 'DD.MM.YYYY HH:mm')}` }}
+            </b>
+            <p>
+              {{comment.text}}
+            </p>
+          </div>
+        </div>
+
         <v-textarea
             class="mt-4"
             label="Описание"
-            readonly
             density="comfortable"
-            :model-value="comment.text"
+            :model-value="newComment"
+            @input="CHANGE_DATA_BY_KEY({newComment: $event.target.value})"
         />
+        <v-btn
+            class="mr-2"
+            color="#0082c5"
+            variant="flat"
+            @click="sendComment"
+        >
+          Отправить
+        </v-btn>
       </div>
-
-      <v-textarea
-          class="mt-4"
-          label="Описание"
-          density="comfortable"
-          :model-value="newComment"
-          @input="newComment = $event.target.value"
-      />
-      <v-btn
-          class="mr-2"
-          color="#0082c5"
-          variant="flat"
-          @click="sendComment"
-      >
-        Отправить
-      </v-btn>
-    </div>
+    </template>
     <template #append>
       <v-btn
         class="mr-2"
@@ -109,16 +109,13 @@ export default {
   name: 'NotesModal',
   computed: {
     ...mapState(['topicsList', 'statuses']),
-    ...mapState('notes', ['form', 'modalType', 'modalView']),
+    ...mapState('notes', ['form', 'modalType', 'modalView', 'newComment', 'comments']),
     getTitle() {
       return this.modalType === 'create' ? 'Новое обращение' : 'Редактирование обращения'
     }
   },
-  mounted() {
-    this.getComments()
-  },
   methods: {
-    ...mapActions('notes', ['createNote', 'editNote', 'clearForm', 'sendComment', 'getComments']),
+    ...mapActions('notes', ['createNote', 'editNote', 'clearForm', 'sendComment']),
     ...mapMutations('notes', ['CHANGE_DATA_BY_KEY']),
     async saveHandler() {
       if (this.modalType === 'create') {
