@@ -181,7 +181,7 @@ export default {
       return headers
     },
     ...mapActions(['getStatuses', 'getTopics']),
-    ...mapActions('notes', ['getNotes', 'getComments']),
+    ...mapActions('notes', ['getNotes', 'getComments', 'resetFilters']),
     ...mapMutations('notes', ['CHANGE_DATA_BY_KEY', 'SET_FORM']),
 
     // Инициализация сортировки

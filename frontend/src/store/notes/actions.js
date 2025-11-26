@@ -68,5 +68,10 @@ export default {
       topicId: null,
       statusId: null,
     })
+  },
+
+  async resetFilters({commit, dispatch}) {
+    commit('CLEAR_FILTER');
+    await dispatch('getNotes')
   }
 }
