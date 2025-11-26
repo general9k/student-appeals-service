@@ -43,7 +43,7 @@ export default {
     try {
       const {data} = await API.get(`/api/v1/note/${id}/comments`)
 
-      commit('CHANGE_DATA_BY_KEY', {comments: data})
+      commit('CHANGE_DATA_BY_KEY', {comments: data.comments})
     } catch (e) {
       console.error(e);
     }

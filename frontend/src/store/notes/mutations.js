@@ -14,7 +14,7 @@ export default {
       state.form[key] = payload[key]
     })
   },
-  CLEAR_FILTER(state, payload) {
+  CLEAR_FILTER(state) {
     Object.keys(state.filter).forEach((key) => {
       state.filter[key] = null
     })

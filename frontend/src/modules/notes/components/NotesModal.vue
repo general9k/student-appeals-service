@@ -113,7 +113,7 @@
         </div>
 
         <!-- Форма нового комментария -->
-        <v-form v-model="commentValid" ref="commentForm" class="mt-4">
+        <v-form v-model="commentValid" ref="commentForm" class="mt-4 mb-6">
           <v-textarea
               label="Новый комментарий"
               density="comfortable"
@@ -142,6 +142,7 @@
 
     <template #append>
       <v-btn
+          v-if="modalType !== 'view'"
           class="mr-2"
           color="#0082c5"
           variant="flat"
@@ -157,7 +158,7 @@
           @click="closeModal"
           :disabled="saving"
       >
-        Отменить
+        {{ modalType === 'view' ? 'Закрыть' : 'Отменить' }}
       </v-btn>
     </template>
   </v-navigation-drawer>
@@ -186,7 +187,14 @@ export default {
     ...mapState(['topicsList', 'statuses']),
     ...mapState('notes', ['form', 'modalType', 'modalView', 'newComment', 'comments']),
     getTitle() {
-      return this.modalType === 'create' ? 'Новое обращение' : 'Редактирование обращения'
+      switch (this.modalType) {
+        case "create":
+          return 'Новое обращение'
+        case 'edit':
+          return 'Редактирование обращения'
+        case 'view':
+          return 'Просмотр обращения'
+      }
     }
   },
   methods: {
