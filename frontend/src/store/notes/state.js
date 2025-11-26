@@ -24,4 +24,7 @@ export default {
   size: 10,
   sort: 'createdAt',
   order: 'DESC',
+
+  comments: [],
+  newComment: null,
 }

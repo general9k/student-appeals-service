@@ -39,6 +39,29 @@ export default {
     }
   },
 
+  async getComments({state, dispatch, commit}) {
+    try {
+      const {data} = await API.post(`/api/v1/note/${state.form.id}/comments`)
+
+      commit('CHANGE_DATA_BY_KEY', {comments: data})
+      dispatch('clearForm')
+    } catch (e) {
+      console.error(e);
+    }
+  },
+
+  async sendComment({state, dispatch, commit}) {
+    try {
+      const {data} = await API.post(`/api/v1/note/${state.form.id}/comment`, {text: state.newComment})
+
+      commit('CHANGE_DATA_BY_KEY', {newComment: null})
+      commit('ADD_COMMENT', data)
+      dispatch('clearForm')
+    } catch (e) {
+      console.error(e);
+    }
+  },
+
   clearForm({commit}) {
     commit('SET_FORM', {
       id: null,

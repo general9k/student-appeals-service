@@ -16,14 +16,14 @@
         class="mt-4"
         label="Название обращения"
         density="comfortable"
-        :disabled="modalType !== 'create'"
+        :readonly="modalType !== 'create'"
         :model-value="form.name"
         @input="form.name = $event.target.value"
       />
       <v-textarea
         class="mt-4"
         label="Описание"
-        :disabled="modalType !== 'create'"
+        :readonly="modalType !== 'create'"
         density="comfortable"
         :model-value="form.description"
         @input="form.description = $event.target.value"
@@ -34,7 +34,7 @@
         density="comfortable"
         :items="topicsList"
         item-title="name"
-        :disabled="modalType !== 'create'"
+        :readonly="modalType !== 'create'"
         item-value="id"
         :model-value="form.topicId"
         @update:modelValue="form.topicId = $event"
@@ -44,7 +44,7 @@
         class="mt-4"
         label="Статус"
         density="comfortable"
-        :disabled="modalType === 'view'"
+        :readonly="modalType === 'view'"
         :items="statuses"
         item-title="name"
         item-value="id"
@@ -52,6 +52,36 @@
         @update:modelValue="form.statusId = $event"
       />
     </template>
+
+    <h4>Комментарии</h4>
+    <div v-for="comment in comments" :key="comment.id">
+      <div>
+        {{ `${comment.author} - ${getDate(comment.createdAt, 'DD.MM.YYYY HH:mm')}` }}
+        <v-textarea
+            class="mt-4"
+            label="Описание"
+            readonly
+            density="comfortable"
+            :model-value="comment.text"
+        />
+      </div>
+
+      <v-textarea
+          class="mt-4"
+          label="Описание"
+          density="comfortable"
+          :model-value="newComment"
+          @input="newComment = $event.target.value"
+      />
+      <v-btn
+          class="mr-2"
+          color="#0082c5"
+          variant="flat"
+          @click="sendComment"
+      >
+        Отправить
+      </v-btn>
+    </div>
     <template #append>
       <v-btn
         class="mr-2"
@@ -84,8 +114,11 @@ export default {
       return this.modalType === 'create' ? 'Новое обращение' : 'Редактирование обращения'
     }
   },
+  mounted() {
+    this.getComments()
+  },
   methods: {
-    ...mapActions('notes', ['createNote', 'editNote', 'clearForm']),
+    ...mapActions('notes', ['createNote', 'editNote', 'clearForm', 'sendComment', 'getComments']),
     ...mapMutations('notes', ['CHANGE_DATA_BY_KEY']),
     async saveHandler() {
       if (this.modalType === 'create') {

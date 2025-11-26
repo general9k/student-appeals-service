@@ -5,8 +5,8 @@ export default {
     })
   },
 
-  ADD_NOTE(state, data) {
-    state.notes.push(data)
+  ADD_COMMENT(state, data) {
+    state.comments.push(data)
   },
 
   SET_FORM(state, payload) {
